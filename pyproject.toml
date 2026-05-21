@@ -1,0 +1,16 @@
+[project]
+name = "capital-bikeshare-demand"
+version = "0.1.0"
+description = "Capital Bikeshare demand forecasting and dispatch analysis dashboard"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

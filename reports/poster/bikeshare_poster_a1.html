@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>A1 Research Poster - 共享单车需求预测与调度分析</title>
+  <style>
+    @page { size: A1; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body, .poster, header, .section, h2, footer, .number, .badge, .result-callout {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      background: #d6dde5;
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+      color: #152333;
+    }
+    .poster {
+      width: 594mm;
+      height: 841mm;
+      background: #f8fafc;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 96mm 1fr 20mm;
+    }
+    header {
+      background: #075da8;
+      color: white;
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 12mm;
+      padding: 14mm 18mm 10mm;
+      border-bottom: 5mm solid #083b6f;
+    }
+    .kicker {
+      font-size: 6.8mm;
+      letter-spacing: 1.8mm;
+      text-transform: uppercase;
+      color: #bfe1ff;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 4mm 0 3mm;
+      font-size: 19mm;
+      line-height: 1.04;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+    .authors {
+      font-size: 5.5mm;
+      line-height: 1.35;
+      color: #edf7ff;
+    }
+    .badge {
+      justify-self: end;
+      width: 150mm;
+      min-height: 58mm;
+      border: .7mm solid rgba(255,255,255,.42);
+      background: rgba(255,255,255,.1);
+      padding: 8mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+      align-content: center;
+    }
+    .badge div {
+      border-left: 1.2mm solid #ffc857;
+      padding-left: 4mm;
+      font-size: 4.5mm;
+      color: #cde9ff;
+    }
+    .badge b {
+      display: block;
+      font-size: 9.5mm;
+      line-height: 1.05;
+      color: #fff;
+    }
+    main {
+      padding: 10mm 14mm 8mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7mm;
+      align-content: start;
+    }
+    .column {
+      min-width: 0;
+      display: grid;
+      grid-auto-rows: min-content;
+      gap: 5.5mm;
+      border-left: .45mm solid #b9c8d6;
+      padding-left: 5mm;
+    }
+    .section {
+      background: #fff;
+      border: .5mm solid #c9d6e2;
+      box-shadow: 0 1.2mm 0 rgba(7,93,168,.08);
+    }
+    h2 {
+      margin: 0;
+      padding: 3mm 4.2mm;
+      background: #e6f1fb;
+      color: #06477f;
+      border-bottom: .55mm solid #a9c8e5;
+      font-size: 6.2mm;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: .5mm;
+    }
+    .body { padding: 4mm 4.4mm; }
+    p, li, td, th {
+      font-size: 3.85mm;
+      line-height: 1.34;
+    }
+    p { margin: 0 0 3.2mm; }
+    ul, ol { margin: 0; padding-left: 6mm; }
+    li { margin: 1.6mm 0; }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #f0f5fa;
+      color: #06477f;
+      text-align: left;
+      font-weight: 800;
+    }
+    th, td {
+      border: .35mm solid #c9d6e2;
+      padding: 2.5mm 2.8mm;
+      vertical-align: top;
+    }
+    .number-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3.5mm;
+      margin-top: 3mm;
+    }
+    .number {
+      background: #083b6f;
+      color: #fff;
+      padding: 4mm;
+      min-height: 22mm;
+    }
+    .number b {
+      display: block;
+      font-size: 8mm;
+      line-height: 1;
+      color: #ffc857;
+    }
+    .number span { display: block; margin-top: 1.5mm; font-size: 3.5mm; color: #d7ebff; }
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.2mm;
+    }
+    .flow div {
+      border-left: 1.2mm solid #075da8;
+      background: #f4f8fb;
+      padding: 2.4mm 3mm;
+      font-size: 3.7mm;
+      font-weight: 700;
+    }
+    .result-callout {
+      background: #fff7df;
+      border: .55mm solid #e4c268;
+      padding: 4mm 4.8mm;
+      margin-top: 4mm;
+    }
+    .result-callout b { color: #8a5b00; }
+    .chart-title {
+      font-size: 3.8mm;
+      color: #4a6075;
+      margin-bottom: 2mm;
+      font-weight: 700;
+    }
+    svg { width: 100%; height: auto; display: block; }
+    .caption {
+      font-size: 3.2mm;
+      color: #5a6c7f;
+      margin-top: 2mm;
+    }
+    .mini-window {
+      border: .45mm solid #9eb9d1;
+      background: #f7fbff;
+      padding: 3mm;
+    }
+    .tabs {
+      display: flex;
+      gap: 2mm;
+      margin-bottom: 3mm;
+    }
+    .tabs span {
+      background: #075da8;
+      color: white;
+      padding: 1.5mm 2.2mm;
+      font-size: 3.25mm;
+    }
+    .screen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm;
+    }
+    .screen-grid div {
+      min-height: 18mm;
+      background: white;
+      border: .35mm solid #c9d6e2;
+      padding: 2.4mm;
+      font-size: 3.5mm;
+      color: #4a6075;
+    }
+    footer {
+      padding: 4mm 14mm;
+      border-top: .5mm solid #b9c8d6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 4mm;
+      color: #45566a;
+      background: #eef4f9;
+    }
+    .refs { font-size: 3.7mm; color: #506579; }
+  </style>
+</head>
+<body>
+  <section class="poster">
+    <header>
+      <div>
+        <div class="kicker">Cross-domain Data Mining Research Poster</div>
+        <h1>共享单车需求预测与调度分析</h1>
+        <div class="authors">
+          任泓臻 2351458 · 虞澍 2352979 · 黄彦炜 2353117 · 马小龙 2353814<br>
+          基于 Capital Bikeshare 骑行记录与 Open-Meteo 历史天气的多源增强预测系统
+        </div>
+      </div>
+      <div class="badge">
+        <div><b>16.88M</b>三年骑行记录</div>
+        <div><b>26,304</b>小时级样本</div>
+        <div><b>0.964</b>最佳城市模型 R2</div>
+        <div><b>20</b>站点聚类与预测</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="column">
+        <article class="section">
+          <h2>Abstract</h2>
+          <div class="body">
+            <p>共享单车需求受通勤周期、天气变化、会员结构和车辆类型共同影响。本项目融合官方骑行记录与历史天气数据，建立小时级需求预测模型，并进一步输出站点补车与清车建议。</p>
+            <p>系统覆盖数据处理、特征工程、多模型训练、调度分析和 Streamlit Dashboard，形成可复现的端到端数据挖掘项目。</p>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Data</h2>
+          <div class="body">
+            <div class="number-row">
+              <div class="number"><b>2023-25</b><span>三年时间范围</span></div>
+              <div class="number"><b>642</b><span>平均每小时骑行量</span></div>
+              <div class="number"><b>3,119</b><span>峰值小时需求</span></div>
+              <div class="number"><b>410k</b><span>站点小时记录</span></div>
+            </div>
+            <p class="caption">峰值出现在 2025-04-22 17:00，符合通勤高峰特征。</p>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Pipeline</h2>
+          <div class="body">
+            <div class="flow">
+              <div>1. 下载 Capital Bikeshare 月度 zip</div>
+              <div>2. 清洗起止时间、站点、车辆类型和会员类型</div>
+              <div>3. 聚合小时级城市需求与站点 pickup/dropoff</div>
+              <div>4. 融合 Open-Meteo 小时天气变量</div>
+              <div>5. 构造滞后、滚动均值和周期特征</div>
+              <div>6. 输出预测、指标、调度建议和 Dashboard</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="column">
+        <article class="section">
+          <h2>Demand Trend</h2>
+          <div class="body">
+            <div class="chart-title">2023-2025 逐月需求趋势示意</div>
+            <svg viewBox="0 0 360 185" aria-label="monthly demand line chart">
+              <rect x="0" y="0" width="360" height="185" fill="#ffffff"/>
+              <g stroke="#d8e3ed" stroke-width="1">
+                <line x1="36" y1="28" x2="340" y2="28"/><line x1="36" y1="68" x2="340" y2="68"/>
+                <line x1="36" y1="108" x2="340" y2="108"/><line x1="36" y1="148" x2="340" y2="148"/>
+              </g>
+              <polyline fill="none" stroke="#075da8" stroke-width="4" points="36,148 64,128 92,100 120,88 148,82 176,64 204,63 232,56 260,44 288,30 316,72 340,112"/>
+              <polygon fill="rgba(7,93,168,.15)" points="36,148 64,128 92,100 120,88 148,82 176,64 204,63 232,56 260,44 288,30 316,72 340,112 340,162 36,162"/>
+              <g fill="#075da8">
+                <circle cx="36" cy="148" r="3"/><circle cx="64" cy="128" r="3"/><circle cx="92" cy="100" r="3"/><circle cx="120" cy="88" r="3"/>
+                <circle cx="148" cy="82" r="3"/><circle cx="176" cy="64" r="3"/><circle cx="204" cy="63" r="3"/><circle cx="232" cy="56" r="3"/>
+                <circle cx="260" cy="44" r="3"/><circle cx="288" cy="30" r="3"/><circle cx="316" cy="72" r="3"/><circle cx="340" cy="112" r="3"/>
+              </g>
+              <g fill="#506579" font-size="10">
+                <text x="32" y="177">1</text><text x="88" y="177">3</text><text x="144" y="177">5</text><text x="200" y="177">7</text><text x="256" y="177">9</text><text x="310" y="177">11</text>
+                <text x="4" y="32">700k</text><text x="9" y="152">230k</text>
+              </g>
+            </svg>
+            <p class="caption">需求从冬季逐步上升，9-10 月达到全年高位，随后进入冬季回落。</p>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Features</h2>
+          <div class="body">
+            <table>
+              <tr><th>类别</th><th>代表特征</th></tr>
+              <tr><td>时间周期</td><td>hour、weekday、month、weekend、sin/cos 编码</td></tr>
+              <tr><td>天气因素</td><td>温度、湿度、降水、风速</td></tr>
+              <tr><td>用户与车辆</td><td>会员比例、游客比例、电单车占比</td></tr>
+              <tr><td>历史需求</td><td>lag_1h、lag_24h、rolling_24h、rolling_168h</td></tr>
+            </table>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Models</h2>
+          <div class="body">
+            <ul>
+              <li>Seasonal Naive 作为周期性基线。</li>
+              <li>Ridge 检查线性特征解释能力。</li>
+              <li>Random Forest、HistGradientBoosting、XGBoost 捕捉非线性关系。</li>
+              <li>LSTM 使用 PyTorch + CUDA，在 RTX 4050 Laptop GPU 上训练。</li>
+              <li>Top 20 站点单独训练净需求预测模型，避免当前小时 pickup/dropoff 泄漏。</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section class="column">
+        <article class="section">
+          <h2>Model Results</h2>
+          <div class="body">
+            <div class="chart-title">RMSE 越低越好</div>
+            <svg viewBox="0 0 420 246" aria-label="rmse bar chart">
+              <rect x="0" y="0" width="420" height="246" fill="#fff"/>
+              <g fill="#506579" font-size="12">
+                <text x="12" y="39">HistGB</text><text x="12" y="76">XGBoost</text><text x="12" y="113">LSTM</text>
+                <text x="12" y="150">Random Forest</text><text x="12" y="187">Ridge</text><text x="12" y="224">Seasonal Naive</text>
+              </g>
+              <g>
+                <rect x="122" y="23" width="110" height="22" fill="#075da8"/><text x="240" y="39" font-size="12" fill="#152333">116.95</text>
+                <rect x="122" y="60" width="115" height="22" fill="#2a83c5"/><text x="245" y="76" font-size="12" fill="#152333">122.63</text>
+                <rect x="122" y="97" width="119" height="22" fill="#5ca6d6"/><text x="249" y="113" font-size="12" fill="#152333">127.16</text>
+                <rect x="122" y="134" width="134" height="22" fill="#8fb8d5"/><text x="264" y="150" font-size="12" fill="#152333">143.27</text>
+                <rect x="122" y="171" width="146" height="22" fill="#b5c4cf"/><text x="276" y="187" font-size="12" fill="#152333">156.61</text>
+                <rect x="122" y="208" width="282" height="22" fill="#d07a45"/><text x="410" y="224" text-anchor="end" font-size="12" fill="#152333">300.74</text>
+              </g>
+            </svg>
+            <table>
+              <tr><th>最佳模型</th><th>MAE</th><th>RMSE</th><th>MAPE</th><th>R2</th></tr>
+              <tr><td>HistGradientBoosting</td><td>84.29</td><td>116.95</td><td>15.23%</td><td>0.9635</td></tr>
+            </table>
+            <div class="result-callout">
+              <b>关键发现：</b>三年数据下 HistGradientBoosting 取得最佳城市总体 RMSE；LSTM 接近集成树模型，但仍需要更多序列调参与站点级扩展。
+            </div>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Prediction Task</h2>
+          <div class="body">
+            <p>模型以小时为粒度预测城市总体骑行需求，采用前 80% 时间训练、后 20% 时间测试，避免随机切分引起的时间泄漏。</p>
+            <table>
+              <tr><th>指标</th><th>含义</th></tr>
+              <tr><td>MAE / RMSE</td><td>衡量预测误差大小</td></tr>
+              <tr><td>MAPE</td><td>衡量相对误差，便于解释</td></tr>
+              <tr><td>R2</td><td>衡量模型对需求波动的解释能力</td></tr>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="column">
+        <article class="section">
+          <h2>Dispatch Analysis</h2>
+          <div class="body">
+            <p>站点层面统计 pickup、dropoff 和 net demand。高净流出站点建议补车，高净流入站点建议清车。</p>
+            <div class="chart-title">站点不平衡强度示例</div>
+            <svg viewBox="0 0 340 170" aria-label="station imbalance chart">
+              <rect width="340" height="170" fill="#fff"/>
+              <g font-size="10" fill="#506579">
+                <text x="6" y="28">Union Station</text>
+                <text x="6" y="60">Jefferson Dr & 14th</text>
+                <text x="6" y="92">4th & Madison</text>
+                <text x="6" y="124">14th & V St NW</text>
+                <text x="6" y="156">New Hampshire & T</text>
+              </g>
+              <rect x="126" y="14" width="196" height="18" fill="#075da8"/><text x="328" y="28" text-anchor="end" font-size="10">74</text>
+              <rect x="126" y="46" width="183" height="18" fill="#2a83c5"/><text x="315" y="60" text-anchor="end" font-size="10">69</text>
+              <rect x="126" y="78" width="148" height="18" fill="#5ca6d6"/><text x="280" y="92" text-anchor="end" font-size="10">56</text>
+              <rect x="126" y="110" width="138" height="18" fill="#8fb8d5"/><text x="270" y="124" text-anchor="end" font-size="10">52</text>
+              <rect x="126" y="142" width="116" height="18" fill="#d07a45"/><text x="248" y="156" text-anchor="end" font-size="10">44</text>
+            </svg>
+            <p class="caption">实际展示时可在 Dashboard 中筛选站点并查看补车/清车建议。</p>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Dashboard</h2>
+          <div class="body">
+            <div class="mini-window">
+              <div class="tabs">
+                <span>数据概览</span><span>需求预测</span><span>模型对比</span><span>站点调度</span>
+              </div>
+              <div class="screen-grid">
+                <div>趋势图<br>全年小时需求与天气分布</div>
+                <div>预测曲线<br>真实值 vs 模型预测</div>
+                <div>站点聚类<br>通勤流入/流出、景点休闲、混合型</div>
+                <div>站点预测<br>Top 20 净需求真实值 vs 预测值</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2>Conclusion</h2>
+          <div class="body">
+            <ol>
+              <li>全年需求具有明显季节趋势和通勤高峰。</li>
+              <li>三年数据增强了跨年趋势和泛化分析。</li>
+              <li>HistGradientBoosting 在城市总体预测中取得最佳 RMSE。</li>
+              <li>站点聚类可解释不同站点的通勤/休闲属性。</li>
+              <li>Top 20 站点预测为调度策略提供更细粒度依据。</li>
+            </ol>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="refs">References: Capital Bikeshare System Data · Open-Meteo Historical Weather API · scikit-learn · XGBoost · PyTorch · Streamlit</div>
+      <div>共享单车需求预测与调度分析</div>
+    </footer>
+  </section>
+</body>
+</html>
