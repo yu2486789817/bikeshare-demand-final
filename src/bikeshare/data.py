@@ -189,6 +189,35 @@ def aggregate_station_hourly(trips: pd.DataFrame, top_n: int = 20) -> pd.DataFra
     station["action"] = station["net_demand"].apply(
         lambda value: "补车" if value > 0 else ("清车" if value < 0 else "观测")
     )
+    location_columns = {"start_lat", "start_lng", "end_lat", "end_lng"}
+    if location_columns.issubset(trips.columns):
+        start_locations = trips.loc[
+            trips["start_station_name"].isin(top_stations),
+            ["start_station_name", "start_lat", "start_lng"],
+        ].rename(
+            columns={
+                "start_station_name": "station_name",
+                "start_lat": "latitude",
+                "start_lng": "longitude",
+            }
+        )
+        end_locations = trips.loc[
+            trips["end_station_name"].isin(top_stations),
+            ["end_station_name", "end_lat", "end_lng"],
+        ].rename(
+            columns={
+                "end_station_name": "station_name",
+                "end_lat": "latitude",
+                "end_lng": "longitude",
+            }
+        )
+        locations = pd.concat([start_locations, end_locations], ignore_index=True).dropna()
+        if not locations.empty:
+            locations = locations.groupby("station_name", as_index=False).agg(
+                latitude=("latitude", "median"),
+                longitude=("longitude", "median"),
+            )
+            station = station.merge(locations, on="station_name", how="left")
     return station.sort_values(["timestamp", "station_name"]).reset_index(drop=True)
 
 

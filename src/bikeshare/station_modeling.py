@@ -142,7 +142,8 @@ def train_station_models(
 
     predictions: list[pd.DataFrame] = []
     metrics: list[dict[str, object]] = []
-    for station_name in stations:
+    for station_idx, station_name in enumerate(stations, start=1):
+        print(f"Training station {station_idx}/{len(stations)}: {station_name}...", flush=True)
         station_data = station_hourly[station_hourly["station_name"] == station_name]
         features = _add_station_features(station_data, hourly, station_name)
         split_at = max(1, int(len(features) * train_ratio))
@@ -164,6 +165,7 @@ def train_station_models(
             }
         )
         for model_name, model in _build_station_models().items():
+            print(f"  Training station model: {model_name}...", flush=True)
             model.fit(x_train, y_train)
             y_pred = model.predict(x_test)
             station_predictions[model_name] = y_pred

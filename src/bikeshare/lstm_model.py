@@ -110,8 +110,14 @@ def train_lstm_model(
     train_end_idx: int,
     config: LSTMConfig | None = None,
 ) -> tuple[dict[str, float], pd.DataFrame, dict[str, object]]:
+    print("Preparing LSTM runtime...", flush=True)
     torch, nn, DataLoader, TensorDataset = _require_torch()
     config = config or LSTMConfig()
+    try:
+        torch.set_num_threads(1)
+        torch.set_num_interop_threads(1)
+    except RuntimeError:
+        torch.set_num_threads(1)
 
     random.seed(config.random_state)
     np.random.seed(config.random_state)
@@ -120,8 +126,14 @@ def train_lstm_model(
         torch.cuda.manual_seed_all(config.random_state)
 
     columns = feature_columns(features)
+    print("Building LSTM sequence arrays...", flush=True)
     train_x, train_y, test_x, test_y, test_timestamps, scaler, target_scaler = _make_sequence_arrays(
         features, columns, train_end_idx, config
+    )
+    print(
+        f"LSTM train sequences: {len(train_x)}, test sequences: {len(test_x)}, device: "
+        f"{'cuda' if torch.cuda.is_available() else 'cpu'}",
+        flush=True,
     )
 
     class DemandLSTM(nn.Module):
@@ -145,6 +157,7 @@ def train_lstm_model(
             return self.head(output[:, -1, :]).squeeze(-1)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Initializing LSTM model...", flush=True)
     model = DemandLSTM(input_size=len(columns)).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate, weight_decay=1e-4)
     loss_fn = nn.SmoothL1Loss()
@@ -160,8 +173,9 @@ def train_lstm_model(
     )
 
     model.train()
+    print(f"Starting LSTM training for {config.epochs} epoch(s)...", flush=True)
     last_loss = 0.0
-    for _ in range(config.epochs):
+    for epoch in range(config.epochs):
         batch_losses = []
         for batch_x, batch_y in loader:
             batch_x = batch_x.to(device)
@@ -174,6 +188,11 @@ def train_lstm_model(
             optimizer.step()
             batch_losses.append(float(loss.detach().cpu()))
         last_loss = float(np.mean(batch_losses))
+        if epoch == 0 or (epoch + 1) % 5 == 0 or epoch + 1 == config.epochs:
+            print(
+                f"LSTM epoch {epoch + 1}/{config.epochs}, loss={last_loss:.4f}",
+                flush=True,
+            )
 
     model.eval()
     test_tensor = torch.from_numpy(test_x).to(device)

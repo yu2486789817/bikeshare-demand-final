@@ -108,6 +108,7 @@ def train_models(
     predictions = pd.DataFrame({"timestamp": test["timestamp"], "actual": y_test.to_numpy()})
 
     for name, model in _build_models().items():
+        print(f"Training model: {name}...", flush=True)
         model.fit(x_train, y_train)
         y_pred = np.clip(model.predict(x_test), 0, None)
         metrics[name] = _score(y_test, y_pred)
@@ -122,6 +123,7 @@ def train_models(
         "feature_columns": columns,
     }
     if include_lstm:
+        print("Training model: lstm...", flush=True)
         lstm_metrics, lstm_predictions, lstm_metadata = train_lstm_model(
             features,
             train_end_idx=len(train),
