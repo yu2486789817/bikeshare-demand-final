@@ -8,15 +8,6 @@ __pycache__/
 .streamlit/
 tmp/
 .kiro/
-data/raw/*.zip
-data/raw/*.csv
-data/processed/*.csv
 models/*.joblib
-models/*.json
-models/*.csv
 models/*.pt
 models/*.pth
-reports/figures/*.html
-reports/tables/*.csv
-reports/*.md
-output/pdf/共享单车项目计划海报_A1.pdf

@@ -1,58 +1,74 @@
-# 四人提交拆分建议
+# GitHub仓库提交方案建议
+
+课程要求每名成员有 GitHub 代码提交记录。虽然实际工作中，2名同学主要负责代码类工作，另外2名同学主要负责非代码类工作，但仍可以按照项目计划第 8 节的四个角色，把现有代码拆成 4 个相对独立的提交包。每个提交包对应一名成员的职责边界，并尽量做到文件归属清晰。
 
 目标：每个人都有清晰的技术角色、代码文件和可量化输出，commit 数量与代码量尽量接近。
 
-## 成员 A：数据工程与多源融合
+项目计划的第8节中的团队分工如下：
 
-建议 commit：
+| 成员   | 学号    | 角色           | 主要职责                               | 可考核输出                             |
+| ------ | ------- | -------------- | -------------------------------------- | -------------------------------------- |
+| 任泓臻 | 2351458 | 数据工程负责人 | 数据下载、清洗、天气融合、数据质量检查 | 数据处理代码、处理后数据、数据质量说明 |
+| 虞澍   | 2352979 | 算法负责人     | 特征工程、传统模型、XGBoost、实验脚本  | 特征构造代码、训练代码、模型指标       |
+| 黄彦炜 | 2353117 | 深度学习负责人 | LSTM、GPU/CPU 训练适配、深度模型解释   | LSTM 代码、训练记录、模型对比分析      |
+| 马小龙 | 2353814 | 工程展示负责人 | Dashboard、调度建议、图表导出、文档    | Streamlit 页面、调度表、报告图表       |
 
-1. `feat(data): add Capital Bikeshare download and trip cleaning`
-2. `feat(data): aggregate city and station hourly demand`
-3. `feat(weather): merge Open-Meteo hourly weather features`
-4. `test(data): cover mixed timestamp parsing and hourly gaps`
+因此，可以按照下面的划分方式和提交顺序进行提交
 
-主要文件：
+## 任泓臻：数据工程与多源融合
+
+建议 commit message：
+
+1. `feat(data): add trip download cleaning and hourly aggregation`
+2. `feat(weather): merge Open-Meteo weather and holiday-ready data`
+3. `test(data): cover trip cleaning and hourly aggregation`
+
+提交文件：
 
 - `src/bikeshare/data.py`
 - `src/bikeshare/config.py`
+- `src/bikeshare/pipeline.py`
 - `tests/test_data_processing.py`
+- `data/`
 
-## 成员 B：特征工程与传统模型
+## 虞澍：特征工程与传统模型
 
-建议 commit：
+建议 commit message：
 
 1. `feat(features): add temporal lag and rolling demand features`
 2. `feat(models): train baseline and tree-based regressors`
 3. `feat(experiment): add reproducible model leaderboard script`
 4. `test(models): cover scoring and temporal split behavior`
 
-主要文件：
+提交文件：
 
 - `src/bikeshare/features.py`
 - `src/bikeshare/modeling.py`
-- `scripts/run_experiment.py`
+- `scripts/`
 - `tests/test_features.py`
 - `tests/test_modeling.py`
+- `models/metrics.json`、`models/predictions.csv`
 
-## 成员 C：LSTM 与 GPU 实验
+## 黄彦炜：LSTM 与 GPU 实验
 
-建议 commit：
+建议 commit message：
 
-1. `feat(lstm): add PyTorch sequence model for hourly demand`
-2. `fix(lstm): scale regression target for stable training`
-3. `chore(gpu): document CUDA wheelhouse setup`
-4. `test(lstm): cover sequence window construction`
+1. `feat(lstm): add pytorch sequence model for hourly demand`
+2. `feat(lstm): record training device and sequence metadata`
+3. `docs(lstm): document gpu cpu training setup`
 
-主要文件：
+提交文件：
 
 - `src/bikeshare/lstm_model.py`
-- `src/bikeshare/modeling.py`
-- `README.md`
+- `src/bikeshare/dispatch.py`
 - `tests/test_modeling.py`
+- `tests/test_station_enhancements.py`
+- `models/station_predictions.csv`
+- `models/training_info.json`
 
-## 成员 D：Dashboard、调度与报告产物
+## 马小龙：Dashboard、调度与报告产物
 
-建议 commit：
+建议 commit message：
 
 1. `feat(dispatch): add station imbalance recommendations`
 2. `feat(dashboard): build Streamlit analysis dashboard`
@@ -62,16 +78,17 @@
 主要文件：
 
 - `app/dashboard.py`
-- `src/bikeshare/dispatch.py`
+- `src/bikeshare/station_clustering.py`
+- `src/bikeshare/station_modeling.py`
 - `src/bikeshare/reporting.py`
-- `README.md`
-- `docs/commit_allocation.md`
+- `docs/`
+- `reports/`
 
-## 建议实际提交顺序
+## 建议提交顺序
 
-1. A 先提交数据管道。
-2. B 基于处理后数据提交特征与传统模型。
-3. C 在模型接口稳定后提交 LSTM/GPU。
-4. D 最后提交 Dashboard、报告图表和文档。
+1. 数据工程提交：先提交 `config.py`、`data.py`、`pipeline.py` 和数据处理测试。
+2. 算法模型提交：提交 `features.py`、`modeling.py`、实验脚本和模型测试。
+3. 深度学习提交：提交 `lstm_model.py`，并补充 `modeling.py` 中 LSTM 接入和 README 的训练说明。
+4. 工程展示提交：提交 Dashboard、调度、站点聚类、站点预测、报告导出和文档。
 
-如果需要每个人多次 commit，可以按上面的列表每人拆成 3-4 个 commit；如果只需要大致均衡，每人保留 2 个较大的 commit 也可以。
+如果需要每个人多次 commit，可以按上面的内容每人分多次提交。
