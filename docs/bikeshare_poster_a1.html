@@ -4,437 +4,567 @@
   <meta charset="utf-8">
   <title>A1 Research Poster - 共享单车需求预测与调度分析</title>
   <style>
-    @page { size: A1; margin: 0; }
+    @page { size: A1 landscape; margin: 0; }
     * { box-sizing: border-box; }
-    html, body, .poster, header, .section, h2, footer, .number, .badge, .result-callout {
+    html, body, .poster, header, .panel, .metric, .map-card, .screen, footer {
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
     body {
       margin: 0;
-      background: #d6dde5;
-      font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+      background: #d7e0e8;
       color: #152333;
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
     }
     .poster {
-      width: 594mm;
-      height: 841mm;
-      background: #f8fafc;
-      position: relative;
+      width: 841mm;
+      height: 594mm;
+      background:
+        linear-gradient(90deg, rgba(14,74,119,.055) 1px, transparent 1px) 0 0 / 24mm 24mm,
+        linear-gradient(0deg, rgba(14,74,119,.045) 1px, transparent 1px) 0 0 / 24mm 24mm,
+        #f7fafc;
       overflow: hidden;
       display: grid;
-      grid-template-rows: 96mm 1fr 20mm;
+      grid-template-rows: 86mm 1fr 18mm;
     }
     header {
-      background: #075da8;
-      color: white;
+      background: linear-gradient(135deg, #063b64 0%, #075da8 58%, #1596b8 100%);
+      color: #fff;
+      padding: 15mm 17mm 11mm;
       display: grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 12mm;
-      padding: 14mm 18mm 10mm;
-      border-bottom: 5mm solid #083b6f;
+      grid-template-columns: 1.26fr .74fr;
+      gap: 14mm;
+      border-bottom: 4.2mm solid #f6c85f;
+      position: relative;
+    }
+    header:after {
+      content: "";
+      position: absolute;
+      right: -18mm;
+      top: -34mm;
+      width: 148mm;
+      height: 148mm;
+      border: .8mm solid rgba(255,255,255,.22);
+      border-radius: 50%;
     }
     .kicker {
-      font-size: 6.8mm;
-      letter-spacing: 1.8mm;
+      font-size: 6.1mm;
+      letter-spacing: 1.3mm;
       text-transform: uppercase;
-      color: #bfe1ff;
-      font-weight: 700;
-    }
-    h1 {
-      margin: 4mm 0 3mm;
-      font-size: 19mm;
-      line-height: 1.04;
-      letter-spacing: 0;
+      color: #c8edff;
       font-weight: 800;
     }
-    .authors {
-      font-size: 5.5mm;
-      line-height: 1.35;
-      color: #edf7ff;
+    h1 {
+      margin: 4mm 0 3.5mm;
+      font-size: 16.4mm;
+      line-height: 1.04;
+      letter-spacing: 0;
     }
-    .badge {
-      justify-self: end;
-      width: 150mm;
-      min-height: 58mm;
-      border: .7mm solid rgba(255,255,255,.42);
-      background: rgba(255,255,255,.1);
-      padding: 8mm;
+    .subtitle {
+      font-size: 5.6mm;
+      line-height: 1.42;
+      color: #edf8ff;
+      max-width: 330mm;
+    }
+    .authors {
+      margin-top: 5mm;
+      font-size: 4.75mm;
+      color: #dbf4ff;
+      line-height: 1.35;
+    }
+    .hero-metrics {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5mm;
+      gap: 4.2mm;
       align-content: center;
+      z-index: 1;
     }
-    .badge div {
-      border-left: 1.2mm solid #ffc857;
-      padding-left: 4mm;
-      font-size: 4.5mm;
-      color: #cde9ff;
+    .metric {
+      min-height: 32mm;
+      border: .55mm solid rgba(255,255,255,.34);
+      background: rgba(255,255,255,.12);
+      padding: 4.6mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .badge b {
-      display: block;
-      font-size: 9.5mm;
-      line-height: 1.05;
-      color: #fff;
+    .metric b {
+      font-size: 10.2mm;
+      color: #ffd36d;
+      line-height: 1;
+    }
+    .metric span {
+      margin-top: 1.8mm;
+      font-size: 3.75mm;
+      color: #e7f8ff;
+      line-height: 1.22;
     }
     main {
-      padding: 10mm 14mm 8mm;
+      padding: 8mm 12mm 6mm;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7mm;
-      align-content: start;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6mm;
+      align-content: stretch;
+      height: 100%;
     }
     .column {
       min-width: 0;
       display: grid;
-      grid-auto-rows: min-content;
-      gap: 5.5mm;
-      border-left: .45mm solid #b9c8d6;
-      padding-left: 5mm;
+      grid-template-rows: .9fr .82fr 1.12fr;
+      gap: 5mm;
+      height: 100%;
     }
-    .section {
-      background: #fff;
-      border: .5mm solid #c9d6e2;
-      box-shadow: 0 1.2mm 0 rgba(7,93,168,.08);
+    .panel {
+      background: rgba(255,255,255,.96);
+      border: .45mm solid #c7d5e2;
+      box-shadow: 0 1.1mm 0 rgba(6,59,100,.08);
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel.dark {
+      background: #0a3e65;
+      border-color: #0a3e65;
+      color: #eef9ff;
     }
     h2 {
       margin: 0;
-      padding: 3mm 4.2mm;
-      background: #e6f1fb;
-      color: #06477f;
-      border-bottom: .55mm solid #a9c8e5;
-      font-size: 6.2mm;
-      line-height: 1.1;
+      padding: 3mm 4mm;
+      background: #e8f2fb;
+      color: #064a7c;
+      border-bottom: .45mm solid #bed4e7;
+      font-size: 5.65mm;
+      line-height: 1.12;
       text-transform: uppercase;
-      letter-spacing: .5mm;
+      letter-spacing: .35mm;
     }
-    .body { padding: 4mm 4.4mm; }
+    .dark h2 {
+      background: #063052;
+      color: #fff;
+      border-bottom-color: rgba(255,255,255,.2);
+    }
+    .body {
+      padding: 4mm 4.2mm;
+      flex: 1;
+    }
     p, li, td, th {
-      font-size: 3.85mm;
+      font-size: 3.55mm;
       line-height: 1.34;
     }
-    p { margin: 0 0 3.2mm; }
-    ul, ol { margin: 0; padding-left: 6mm; }
-    li { margin: 1.6mm 0; }
+    p { margin: 0 0 3mm; }
+    ul, ol { margin: 0; padding-left: 5.2mm; }
+    li { margin: 1.35mm 0; }
     table { width: 100%; border-collapse: collapse; }
-    th {
-      background: #f0f5fa;
-      color: #06477f;
-      text-align: left;
-      font-weight: 800;
-    }
     th, td {
-      border: .35mm solid #c9d6e2;
-      padding: 2.5mm 2.8mm;
+      border: .32mm solid #ccd9e4;
+      padding: 2.1mm 2.3mm;
+      text-align: left;
       vertical-align: top;
     }
-    .number-row {
+    th {
+      background: #edf5fb;
+      color: #064a7c;
+      font-weight: 800;
+    }
+    .mini-stats {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3.5mm;
-      margin-top: 3mm;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm;
+      margin: 2mm 0 1mm;
     }
-    .number {
-      background: #083b6f;
-      color: #fff;
-      padding: 4mm;
-      min-height: 22mm;
+    .stat {
+      background: #f0f6fb;
+      border-left: 1mm solid #075da8;
+      padding: 3mm;
     }
-    .number b {
+    .stat b {
       display: block;
-      font-size: 8mm;
+      color: #075da8;
+      font-size: 7mm;
       line-height: 1;
-      color: #ffc857;
     }
-    .number span { display: block; margin-top: 1.5mm; font-size: 3.5mm; color: #d7ebff; }
+    .stat span {
+      display: block;
+      margin-top: 1.2mm;
+      color: #51677a;
+      font-size: 3.1mm;
+      line-height: 1.2;
+    }
     .flow {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 2.2mm;
+      gap: 2mm;
+      counter-reset: step;
     }
     .flow div {
-      border-left: 1.2mm solid #075da8;
       background: #f4f8fb;
+      border-left: 1mm solid #1596b8;
       padding: 2.4mm 3mm;
-      font-size: 3.7mm;
+      font-size: 3.3mm;
       font-weight: 700;
+      color: #23384b;
     }
-    .result-callout {
+    .flow div:before {
+      counter-increment: step;
+      content: counter(step) ". ";
+      color: #075da8;
+      font-weight: 900;
+    }
+    .callout {
+      margin-top: 3mm;
       background: #fff7df;
-      border: .55mm solid #e4c268;
-      padding: 4mm 4.8mm;
-      margin-top: 4mm;
+      border: .45mm solid #e6c268;
+      padding: 3.3mm 3.6mm;
+      font-size: 3.45mm;
+      line-height: 1.32;
     }
-    .result-callout b { color: #8a5b00; }
+    .callout b { color: #8a5b00; }
     .chart-title {
-      font-size: 3.8mm;
-      color: #4a6075;
+      font-size: 3.45mm;
+      color: #50677d;
+      font-weight: 800;
       margin-bottom: 2mm;
-      font-weight: 700;
     }
     svg { width: 100%; height: auto; display: block; }
     .caption {
-      font-size: 3.2mm;
-      color: #5a6c7f;
       margin-top: 2mm;
+      color: #5f7184;
+      font-size: 3.05mm;
+      line-height: 1.28;
     }
-    .mini-window {
-      border: .45mm solid #9eb9d1;
+    .map-card {
+      background: #e9f2f5;
+      border: .45mm solid #9fb9ca;
+      padding: 2.4mm;
+      position: relative;
+    }
+    .map-card svg {
+      height: 112mm;
+      object-fit: contain;
+    }
+    .legend {
+      display: flex;
+      gap: 2.4mm;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 2.2mm;
+      font-size: 3.05mm;
+      color: #526779;
+    }
+    .dot {
+      width: 3mm;
+      height: 3mm;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: .8mm;
+      vertical-align: middle;
+    }
+    .screen {
+      border: .45mm solid #9eb8d0;
       background: #f7fbff;
       padding: 3mm;
     }
     .tabs {
       display: flex;
-      gap: 2mm;
-      margin-bottom: 3mm;
+      gap: 1.4mm;
+      margin-bottom: 2.5mm;
     }
     .tabs span {
       background: #075da8;
-      color: white;
-      padding: 1.5mm 2.2mm;
-      font-size: 3.25mm;
+      color: #fff;
+      padding: 1.25mm 1.7mm;
+      font-size: 2.9mm;
+      font-weight: 700;
     }
     .screen-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3mm;
+      gap: 2.4mm;
     }
     .screen-grid div {
-      min-height: 18mm;
-      background: white;
-      border: .35mm solid #c9d6e2;
-      padding: 2.4mm;
-      font-size: 3.5mm;
-      color: #4a6075;
+      min-height: 20mm;
+      background: #fff;
+      border: .32mm solid #c8d7e2;
+      padding: 2.3mm;
+      font-size: 3.05mm;
+      line-height: 1.26;
+      color: #465f74;
+    }
+    .tag-row {
+      display: flex;
+      gap: 1.8mm;
+      flex-wrap: wrap;
+      margin-top: 2.5mm;
+    }
+    .tag {
+      padding: 1.1mm 1.9mm;
+      border: .32mm solid #b7cfdf;
+      color: #064a7c;
+      background: #f2f8fc;
+      font-size: 2.9mm;
+      font-weight: 700;
     }
     footer {
-      padding: 4mm 14mm;
-      border-top: .5mm solid #b9c8d6;
+      padding: 4.2mm 13mm;
+      background: #eef4f8;
+      border-top: .45mm solid #bfd0dd;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 4mm;
-      color: #45566a;
-      background: #eef4f9;
+      gap: 8mm;
+      color: #40566b;
+      font-size: 3.55mm;
     }
-    .refs { font-size: 3.7mm; color: #506579; }
+    .refs { font-size: 3.2mm; line-height: 1.25; }
   </style>
 </head>
 <body>
   <section class="poster">
     <header>
       <div>
-        <div class="kicker">Cross-domain Data Mining Research Poster</div>
+        <div class="kicker">Research Poster · Dashboard Results Update</div>
         <h1>共享单车需求预测与调度分析</h1>
+        <div class="subtitle">
+          三年 Capital Bikeshare 骑行记录 + Open-Meteo 历史天气，构建城市级需求预测、Top 20 站点预测、站点聚类与地图化调度 Dashboard。
+        </div>
         <div class="authors">
-          任泓臻 2351458 · 虞澍 2352979 · 黄彦炜 2353117 · 马小龙 2353814<br>
-          基于 Capital Bikeshare 骑行记录与 Open-Meteo 历史天气的多源增强预测系统
+          任泓臻 2351458 · 虞澍 2352979 · 黄彦炜 2353117 · 马小龙 2353814
         </div>
       </div>
-      <div class="badge">
-        <div><b>16.88M</b>三年骑行记录</div>
-        <div><b>26,304</b>小时级样本</div>
-        <div><b>0.964</b>最佳城市模型 R2</div>
-        <div><b>20</b>站点聚类与预测</div>
+      <div class="hero-metrics">
+        <div class="metric"><b>16.88M</b><span>2023-2025 三年骑行记录</span></div>
+        <div class="metric"><b>26,304</b><span>连续小时级样本</span></div>
+        <div class="metric"><b>0.9635</b><span>最佳城市模型 R2</span></div>
+        <div class="metric"><b>20</b><span>Top 站点预测与地图调度</span></div>
       </div>
     </header>
 
     <main>
       <section class="column">
-        <article class="section">
-          <h2>Abstract</h2>
+        <article class="panel">
+          <h2>Research Question</h2>
           <div class="body">
-            <p>共享单车需求受通勤周期、天气变化、会员结构和车辆类型共同影响。本项目融合官方骑行记录与历史天气数据，建立小时级需求预测模型，并进一步输出站点补车与清车建议。</p>
-            <p>系统覆盖数据处理、特征工程、多模型训练、调度分析和 Streamlit Dashboard，形成可复现的端到端数据挖掘项目。</p>
+            <p>共享单车需求会随着通勤高峰、季节、天气、节假日和站点功能发生变化。本项目关注两个问题：</p>
+            <ol>
+              <li>能否准确预测未来小时级城市总体需求？</li>
+              <li>能否定位站点层面的净流入/净流出并转化为调度建议？</li>
+            </ol>
+            <div class="callout"><b>新版成果：</b>Dashboard 已加入站点地图、历史热力图、站点预测动画和天气情景选择，展示更接近真实调度系统。</div>
           </div>
         </article>
 
-        <article class="section">
-          <h2>Data</h2>
+        <article class="panel">
+          <h2>Data Scale</h2>
           <div class="body">
-            <div class="number-row">
-              <div class="number"><b>2023-25</b><span>三年时间范围</span></div>
-              <div class="number"><b>642</b><span>平均每小时骑行量</span></div>
-              <div class="number"><b>3,119</b><span>峰值小时需求</span></div>
-              <div class="number"><b>410k</b><span>站点小时记录</span></div>
+            <div class="mini-stats">
+              <div class="stat"><b>2023-25</b><span>完整三年时间线</span></div>
+              <div class="stat"><b>642</b><span>平均每小时骑行量</span></div>
+              <div class="stat"><b>3,119</b><span>峰值小时需求</span></div>
+              <div class="stat"><b>410k+</b><span>站点小时记录</span></div>
             </div>
-            <p class="caption">峰值出现在 2025-04-22 17:00，符合通勤高峰特征。</p>
+            <p class="caption">峰值出现在 2025-04-22 17:00，符合工作日傍晚通勤高峰特征。</p>
           </div>
         </article>
 
-        <article class="section">
+        <article class="panel">
           <h2>Pipeline</h2>
           <div class="body">
             <div class="flow">
-              <div>1. 下载 Capital Bikeshare 月度 zip</div>
-              <div>2. 清洗起止时间、站点、车辆类型和会员类型</div>
-              <div>3. 聚合小时级城市需求与站点 pickup/dropoff</div>
-              <div>4. 融合 Open-Meteo 小时天气变量</div>
-              <div>5. 构造滞后、滚动均值和周期特征</div>
-              <div>6. 输出预测、指标、调度建议和 Dashboard</div>
+              <div>读取 Capital Bikeshare 月度 zip，并过滤无效时间与 Unknown station。</div>
+              <div>聚合城市小时需求与 Top 20 站点 pickup / dropoff / net demand。</div>
+              <div>按小时融合 Open-Meteo 温度、湿度、降水与风速。</div>
+              <div>构造周期、节假日、会员比例、车辆类型、滞后与滚动特征。</div>
+              <div>训练城市级模型、LSTM、站点级模型，导出报告表格与 Dashboard。</div>
             </div>
           </div>
         </article>
       </section>
 
       <section class="column">
-        <article class="section">
-          <h2>Demand Trend</h2>
+        <article class="panel">
+          <h2>Demand Pattern</h2>
           <div class="body">
             <div class="chart-title">2023-2025 逐月需求趋势示意</div>
-            <svg viewBox="0 0 360 185" aria-label="monthly demand line chart">
-              <rect x="0" y="0" width="360" height="185" fill="#ffffff"/>
-              <g stroke="#d8e3ed" stroke-width="1">
+            <svg viewBox="0 0 360 188" aria-label="monthly demand line chart">
+              <rect x="0" y="0" width="360" height="188" fill="#fff"/>
+              <g stroke="#d9e4ed" stroke-width="1">
                 <line x1="36" y1="28" x2="340" y2="28"/><line x1="36" y1="68" x2="340" y2="68"/>
                 <line x1="36" y1="108" x2="340" y2="108"/><line x1="36" y1="148" x2="340" y2="148"/>
               </g>
-              <polyline fill="none" stroke="#075da8" stroke-width="4" points="36,148 64,128 92,100 120,88 148,82 176,64 204,63 232,56 260,44 288,30 316,72 340,112"/>
-              <polygon fill="rgba(7,93,168,.15)" points="36,148 64,128 92,100 120,88 148,82 176,64 204,63 232,56 260,44 288,30 316,72 340,112 340,162 36,162"/>
+              <polyline fill="none" stroke="#075da8" stroke-width="4" points="36,148 64,130 92,102 120,88 148,82 176,64 204,62 232,54 260,43 288,30 316,72 340,112"/>
+              <polygon fill="rgba(7,93,168,.15)" points="36,148 64,130 92,102 120,88 148,82 176,64 204,62 232,54 260,43 288,30 316,72 340,112 340,162 36,162"/>
               <g fill="#075da8">
-                <circle cx="36" cy="148" r="3"/><circle cx="64" cy="128" r="3"/><circle cx="92" cy="100" r="3"/><circle cx="120" cy="88" r="3"/>
-                <circle cx="148" cy="82" r="3"/><circle cx="176" cy="64" r="3"/><circle cx="204" cy="63" r="3"/><circle cx="232" cy="56" r="3"/>
-                <circle cx="260" cy="44" r="3"/><circle cx="288" cy="30" r="3"/><circle cx="316" cy="72" r="3"/><circle cx="340" cy="112" r="3"/>
+                <circle cx="36" cy="148" r="3"/><circle cx="64" cy="130" r="3"/><circle cx="92" cy="102" r="3"/><circle cx="120" cy="88" r="3"/>
+                <circle cx="148" cy="82" r="3"/><circle cx="176" cy="64" r="3"/><circle cx="204" cy="62" r="3"/><circle cx="232" cy="54" r="3"/>
+                <circle cx="260" cy="43" r="3"/><circle cx="288" cy="30" r="3"/><circle cx="316" cy="72" r="3"/><circle cx="340" cy="112" r="3"/>
               </g>
               <g fill="#506579" font-size="10">
-                <text x="32" y="177">1</text><text x="88" y="177">3</text><text x="144" y="177">5</text><text x="200" y="177">7</text><text x="256" y="177">9</text><text x="310" y="177">11</text>
-                <text x="4" y="32">700k</text><text x="9" y="152">230k</text>
+                <text x="32" y="178">1</text><text x="88" y="178">3</text><text x="144" y="178">5</text><text x="200" y="178">7</text><text x="256" y="178">9</text><text x="310" y="178">11</text>
+                <text x="4" y="32">高</text><text x="4" y="152">低</text>
               </g>
             </svg>
-            <p class="caption">需求从冬季逐步上升，9-10 月达到全年高位，随后进入冬季回落。</p>
+            <p class="caption">冬季需求较低，春夏逐步上升，9-10 月进入高位；小时图中早晚通勤峰值明显。</p>
           </div>
         </article>
 
-        <article class="section">
-          <h2>Features</h2>
+        <article class="panel">
+          <h2>Weather & Holiday</h2>
           <div class="body">
             <table>
-              <tr><th>类别</th><th>代表特征</th></tr>
-              <tr><td>时间周期</td><td>hour、weekday、month、weekend、sin/cos 编码</td></tr>
-              <tr><td>天气因素</td><td>温度、湿度、降水、风速</td></tr>
-              <tr><td>用户与车辆</td><td>会员比例、游客比例、电单车占比</td></tr>
-              <tr><td>历史需求</td><td>lag_1h、lag_24h、rolling_24h、rolling_168h</td></tr>
+              <tr><th>分析维度</th><th>Dashboard 新增展示</th></tr>
+              <tr><td>节假日</td><td>节假日 vs 非节假日日均需求</td></tr>
+              <tr><td>星期</td><td>星期一至星期日需求差异</td></tr>
+              <tr><td>月份</td><td>月每日平均需求变化</td></tr>
+              <tr><td>天气情景</td><td>常规、降雨、大风、湿热、寒冷需求对比</td></tr>
             </table>
+            <div class="tag-row">
+              <span class="tag">温度</span><span class="tag">湿度</span><span class="tag">降水</span><span class="tag">风速</span><span class="tag">节假日</span>
+            </div>
           </div>
         </article>
 
-        <article class="section">
-          <h2>Models</h2>
-          <div class="body">
-            <ul>
-              <li>Seasonal Naive 作为周期性基线。</li>
-              <li>Ridge 检查线性特征解释能力。</li>
-              <li>Random Forest、HistGradientBoosting、XGBoost 捕捉非线性关系。</li>
-              <li>LSTM 使用 PyTorch + CUDA，在 RTX 4050 Laptop GPU 上训练。</li>
-              <li>Top 20 站点单独训练净需求预测模型，避免当前小时 pickup/dropoff 泄漏。</li>
-            </ul>
-          </div>
-        </article>
-      </section>
-
-      <section class="column">
-        <article class="section">
+        <article class="panel">
           <h2>Model Results</h2>
           <div class="body">
-            <div class="chart-title">RMSE 越低越好</div>
-            <svg viewBox="0 0 420 246" aria-label="rmse bar chart">
-              <rect x="0" y="0" width="420" height="246" fill="#fff"/>
-              <g fill="#506579" font-size="12">
-                <text x="12" y="39">HistGB</text><text x="12" y="76">XGBoost</text><text x="12" y="113">LSTM</text>
-                <text x="12" y="150">Random Forest</text><text x="12" y="187">Ridge</text><text x="12" y="224">Seasonal Naive</text>
+            <div class="chart-title">城市级模型 RMSE 对比</div>
+            <svg viewBox="0 0 385 228" aria-label="rmse bar chart">
+              <rect width="385" height="228" fill="#fff"/>
+              <g fill="#506579" font-size="10.5">
+                <text x="8" y="31">HistGB</text><text x="8" y="66">XGBoost</text><text x="8" y="101">LSTM</text>
+                <text x="8" y="136">Random Forest</text><text x="8" y="171">Ridge</text><text x="8" y="206">Seasonal Naive</text>
               </g>
-              <g>
-                <rect x="122" y="23" width="110" height="22" fill="#075da8"/><text x="240" y="39" font-size="12" fill="#152333">116.95</text>
-                <rect x="122" y="60" width="115" height="22" fill="#2a83c5"/><text x="245" y="76" font-size="12" fill="#152333">122.63</text>
-                <rect x="122" y="97" width="119" height="22" fill="#5ca6d6"/><text x="249" y="113" font-size="12" fill="#152333">127.16</text>
-                <rect x="122" y="134" width="134" height="22" fill="#8fb8d5"/><text x="264" y="150" font-size="12" fill="#152333">143.27</text>
-                <rect x="122" y="171" width="146" height="22" fill="#b5c4cf"/><text x="276" y="187" font-size="12" fill="#152333">156.61</text>
-                <rect x="122" y="208" width="282" height="22" fill="#d07a45"/><text x="410" y="224" text-anchor="end" font-size="12" fill="#152333">300.74</text>
-              </g>
+              <rect x="106" y="17" width="102" height="20" fill="#075da8"/><text x="214" y="31" font-size="10.5">116.95</text>
+              <rect x="106" y="52" width="107" height="20" fill="#2a83c5"/><text x="219" y="66" font-size="10.5">122.63</text>
+              <rect x="106" y="87" width="111" height="20" fill="#5ca6d6"/><text x="223" y="101" font-size="10.5">127.16</text>
+              <rect x="106" y="122" width="125" height="20" fill="#8fb8d5"/><text x="237" y="136" font-size="10.5">143.27</text>
+              <rect x="106" y="157" width="137" height="20" fill="#b5c4cf"/><text x="249" y="171" font-size="10.5">156.61</text>
+              <rect x="106" y="192" width="264" height="20" fill="#d07a45"/><text x="376" y="206" text-anchor="end" font-size="10.5">300.74</text>
             </svg>
             <table>
-              <tr><th>最佳模型</th><th>MAE</th><th>RMSE</th><th>MAPE</th><th>R2</th></tr>
-              <tr><td>HistGradientBoosting</td><td>84.29</td><td>116.95</td><td>15.23%</td><td>0.9635</td></tr>
-            </table>
-            <div class="result-callout">
-              <b>关键发现：</b>三年数据下 HistGradientBoosting 取得最佳城市总体 RMSE；LSTM 接近集成树模型，但仍需要更多序列调参与站点级扩展。
-            </div>
-          </div>
-        </article>
-
-        <article class="section">
-          <h2>Prediction Task</h2>
-          <div class="body">
-            <p>模型以小时为粒度预测城市总体骑行需求，采用前 80% 时间训练、后 20% 时间测试，避免随机切分引起的时间泄漏。</p>
-            <table>
-              <tr><th>指标</th><th>含义</th></tr>
-              <tr><td>MAE / RMSE</td><td>衡量预测误差大小</td></tr>
-              <tr><td>MAPE</td><td>衡量相对误差，便于解释</td></tr>
-              <tr><td>R2</td><td>衡量模型对需求波动的解释能力</td></tr>
+              <tr><th>Best</th><th>MAE</th><th>RMSE</th><th>R2</th></tr>
+              <tr><td>HistGradientBoosting</td><td>84.29</td><td>116.95</td><td>0.9635</td></tr>
             </table>
           </div>
         </article>
       </section>
 
       <section class="column">
-        <article class="section">
-          <h2>Dispatch Analysis</h2>
+        <article class="panel dark">
+          <h2>Map-based Dispatch</h2>
           <div class="body">
-            <p>站点层面统计 pickup、dropoff 和 net demand。高净流出站点建议补车，高净流入站点建议清车。</p>
-            <div class="chart-title">站点不平衡强度示例</div>
-            <svg viewBox="0 0 340 170" aria-label="station imbalance chart">
-              <rect width="340" height="170" fill="#fff"/>
-              <g font-size="10" fill="#506579">
-                <text x="6" y="28">Union Station</text>
-                <text x="6" y="60">Jefferson Dr & 14th</text>
-                <text x="6" y="92">4th & Madison</text>
-                <text x="6" y="124">14th & V St NW</text>
-                <text x="6" y="156">New Hampshire & T</text>
-              </g>
-              <rect x="126" y="14" width="196" height="18" fill="#075da8"/><text x="328" y="28" text-anchor="end" font-size="10">74</text>
-              <rect x="126" y="46" width="183" height="18" fill="#2a83c5"/><text x="315" y="60" text-anchor="end" font-size="10">69</text>
-              <rect x="126" y="78" width="148" height="18" fill="#5ca6d6"/><text x="280" y="92" text-anchor="end" font-size="10">56</text>
-              <rect x="126" y="110" width="138" height="18" fill="#8fb8d5"/><text x="270" y="124" text-anchor="end" font-size="10">52</text>
-              <rect x="126" y="142" width="116" height="18" fill="#d07a45"/><text x="248" y="156" text-anchor="end" font-size="10">44</text>
-            </svg>
-            <p class="caption">实际展示时可在 Dashboard 中筛选站点并查看补车/清车建议。</p>
+            <p>地图使用站点经纬度展示净流入：红色代表 dropoff 多于 pickup，蓝色代表 pickup 多于 dropoff，可直接对应清车/补车策略。</p>
+            <div class="map-card">
+              <svg viewBox="0 0 360 278" aria-label="station net demand map">
+                <rect width="360" height="278" fill="#e7f1f3"/>
+                <g stroke="#c9d9df" stroke-width="2">
+                  <path d="M36 42 C90 64, 112 94, 151 134 S238 187, 317 214" fill="none"/>
+                  <path d="M52 222 C96 178, 132 155, 176 113 S258 70, 328 52" fill="none"/>
+                  <path d="M88 35 L126 246" fill="none"/><path d="M205 30 L214 250" fill="none"/>
+                  <path d="M30 130 L330 124" fill="none"/><path d="M46 182 L310 164" fill="none"/>
+                </g>
+                <g stroke="#ffffff" stroke-width="2.5" opacity=".9">
+                  <path d="M118 30 L152 82 L182 128 L228 184 L272 230" fill="none"/>
+                  <path d="M70 206 L126 170 L168 136 L224 96 L298 58" fill="none"/>
+                </g>
+                <g>
+                  <circle cx="146" cy="91" r="18" fill="#d95c4a" opacity=".92"/><text x="146" y="95" text-anchor="middle" font-size="10" fill="#fff">+29</text>
+                  <circle cx="214" cy="137" r="15" fill="#d95c4a" opacity=".86"/><text x="214" y="141" text-anchor="middle" font-size="9" fill="#fff">+18</text>
+                  <circle cx="256" cy="188" r="13" fill="#d95c4a" opacity=".78"/><text x="256" y="192" text-anchor="middle" font-size="8" fill="#fff">+12</text>
+                  <circle cx="111" cy="168" r="18" fill="#1976b6" opacity=".9"/><text x="111" y="172" text-anchor="middle" font-size="10" fill="#fff">-31</text>
+                  <circle cx="183" cy="202" r="14" fill="#1976b6" opacity=".84"/><text x="183" y="206" text-anchor="middle" font-size="9" fill="#fff">-16</text>
+                  <circle cx="286" cy="78" r="12" fill="#1976b6" opacity=".74"/><text x="286" y="82" text-anchor="middle" font-size="8" fill="#fff">-9</text>
+                </g>
+                <g fill="#234457" font-size="10" font-weight="700">
+                  <text x="18" y="24">Washington DC station network</text>
+                  <text x="20" y="262">animated by hour · OpenStreetMap in Dashboard</text>
+                </g>
+              </svg>
+            </div>
+            <div class="legend">
+              <span><i class="dot" style="background:#d95c4a"></i>净流入：清车</span>
+              <span><i class="dot" style="background:#1976b6"></i>净流出：补车</span>
+            </div>
           </div>
         </article>
 
-        <article class="section">
-          <h2>Dashboard</h2>
+        <article class="panel">
+          <h2>Station Forecast</h2>
           <div class="body">
-            <div class="mini-window">
+            <p>Top 20 真实站点分别训练 Ridge、Random Forest、HistGradientBoosting、XGBoost，目标为站点每小时 net demand。</p>
+            <table>
+              <tr><th>站点级最佳均值</th><th>RMSE</th></tr>
+              <tr><td>HistGradientBoosting</td><td>2.73</td></tr>
+              <tr><td>Random Forest</td><td>2.77</td></tr>
+              <tr><td>XGBoost</td><td>2.80</td></tr>
+              <tr><td>Ridge</td><td>2.88</td></tr>
+            </table>
+            <p class="caption">站点预测不加入 LSTM，避免训练时间过长；城市级预测仍保留 LSTM/GPU 流程。</p>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Station Clusters</h2>
+          <div class="body">
+            <svg viewBox="0 0 360 146" aria-label="station cluster distribution">
+              <rect width="360" height="146" fill="#fff"/>
+              <rect x="95" y="18" width="204" height="18" fill="#075da8"/><text x="305" y="31" font-size="10">混合型 12</text>
+              <rect x="95" y="50" width="85" height="18" fill="#1596b8"/><text x="186" y="63" font-size="10">景点休闲型 5</text>
+              <rect x="95" y="82" width="34" height="18" fill="#d07a45"/><text x="136" y="95" font-size="10">通勤流出型 2</text>
+              <rect x="95" y="114" width="17" height="18" fill="#8a5b00"/><text x="120" y="127" font-size="10">通勤流入型 1</text>
+              <g fill="#506579" font-size="10"><text x="10" y="31">Cluster</text><text x="10" y="63">Profile</text><text x="10" y="95">Count</text></g>
+            </svg>
+          </div>
+        </article>
+      </section>
+
+      <section class="column">
+        <article class="panel">
+          <h2>Dashboard 2.0</h2>
+          <div class="body">
+            <div class="screen">
               <div class="tabs">
-                <span>数据概览</span><span>需求预测</span><span>模型对比</span><span>站点调度</span>
+                <span>数据概览</span><span>需求预测</span><span>模型对比</span><span>站点详情</span>
               </div>
               <div class="screen-grid">
-                <div>趋势图<br>全年小时需求与天气分布</div>
-                <div>预测曲线<br>真实值 vs 模型预测</div>
-                <div>站点聚类<br>通勤流入/流出、景点休闲、混合型</div>
-                <div>站点预测<br>Top 20 净需求真实值 vs 预测值</div>
+                <div><b>趋势 + 天气</b><br>节假日、星期、月份、天气情景需求对比。</div>
+                <div><b>城市预测</b><br>选择模型和测试窗口，查看真实值 vs 预测值。</div>
+                <div><b>预测动画</b><br>选择站点模型、预测周期和天气状态，地图逐小时播放。</div>
+                <div><b>历史热力图</b><br>选择具体日期时间，查看站点净流入和调度动作。</div>
               </div>
             </div>
           </div>
         </article>
 
-        <article class="section">
-          <h2>Conclusion</h2>
+        <article class="panel">
+          <h2>Key Findings</h2>
           <div class="body">
             <ol>
-              <li>全年需求具有明显季节趋势和通勤高峰。</li>
-              <li>三年数据增强了跨年趋势和泛化分析。</li>
-              <li>HistGradientBoosting 在城市总体预测中取得最佳 RMSE。</li>
-              <li>站点聚类可解释不同站点的通勤/休闲属性。</li>
-              <li>Top 20 站点预测为调度策略提供更细粒度依据。</li>
+              <li>三年数据表现出稳定季节性与早晚通勤峰。</li>
+              <li>HistGradientBoosting 在城市总体预测中取得最低 RMSE。</li>
+              <li>站点层面可分为通勤流入、通勤流出、景点休闲和混合型。</li>
+              <li>地图动画让“补车/清车”建议从表格转化为可解释空间决策。</li>
+              <li>天气情景可用于演示恶劣天气下的需求强度变化。</li>
             </ol>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Deliverables</h2>
+          <div class="body">
+            <table>
+              <tr><th>类型</th><th>产物</th></tr>
+              <tr><td>代码</td><td>数据处理、特征工程、训练、调度、Streamlit Dashboard</td></tr>
+              <tr><td>模型</td><td>6 类城市预测模型 + Top 20 站点模型</td></tr>
+              <tr><td>报告</td><td>计划书、海报、模型指标表、站点聚类表</td></tr>
+              <tr><td>演示</td><td>可运行 Dashboard：地图、动画、图表、预测对比</td></tr>
+            </table>
           </div>
         </article>
       </section>
     </main>
 
     <footer>
-      <div class="refs">References: Capital Bikeshare System Data · Open-Meteo Historical Weather API · scikit-learn · XGBoost · PyTorch · Streamlit</div>
-      <div>共享单车需求预测与调度分析</div>
+      <div class="refs">References: Capital Bikeshare System Data · Open-Meteo Historical Weather API · scikit-learn · XGBoost · PyTorch · Streamlit · Plotly Mapbox / OpenStreetMap</div>
+      <div>Updated research poster · 共享单车需求预测与调度分析</div>
     </footer>
   </section>
 </body>
